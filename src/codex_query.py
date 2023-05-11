@@ -222,8 +222,11 @@ if __name__ == '__main__':
 
         completion_all = response['choices'][0]['text']
 
-        if (False): #s_sensitive_content(user_query + '\n' + completion_all):
-            print("\n#   Sensitive content detected, response has been redacted")
+        sensitive = False
+        if openai.api_type != "azure":
+            sensitive = is_sensitive_content(user_query + '\n' + completion_all)
+        if sensitive:
+                print("\n#   Sensitive content detected, response has been redacted")
         else:
             print(completion_all)
 
